@@ -7,6 +7,7 @@ using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Serialization;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Content;
+using MonoGame.Extended.Screens.Transitions;
 
 namespace Monogame
 {
@@ -19,32 +20,29 @@ namespace Monogame
         public Texture2D _texturePerso;
 
 
-        private Game1 _myGame;
+        public static Game1 _myGame;
         //private GraphicsDeviceManager _graphics;
 
         public SpriteBatch SpriteBatch { get; set; }
 
         // pour récupérer une référence à l’objet game pour avoir accès à tout ce qui est
         // défini dans Game1
-        public Perso(Game1 game) : base(game)
+        public Perso(Game1 game,SpriteBatch spriteBatch) : base(game)
         {
             _myGame = game;
+            this.SpriteBatch = spriteBatch;
         }
         public override void Initialize()
-        {
-            SpriteBatch = new SpriteBatch(GraphicsDevice);
+        {         
             _positionPerso = new Vector2(20, 340);
-
-
             base.Initialize();
 
         }
         public override void LoadContent()
         {
-            _texturePerso = Content.Load<Texture2D>("perso");
-            var spriteSheet = Content.Load<SpriteSheet>("persoAnimations.sf", new JsonContentLoader());
+            //_texturePerso = Content.Load<Texture2D>("perso");         
+            SpriteSheet spriteSheet = _myGame.Content.Load<SpriteSheet>("perso.sf", new JsonContentLoader());
             _perso = new AnimatedSprite(spriteSheet);
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
             base.LoadContent();
         }
         public override void Update(GameTime gameTime)

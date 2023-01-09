@@ -19,7 +19,6 @@ namespace Monogame
         {
             _myGame = game;
 
-
         }
         public override void LoadContent()
         {

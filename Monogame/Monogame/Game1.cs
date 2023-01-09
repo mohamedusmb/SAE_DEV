@@ -13,6 +13,9 @@ namespace Monogame
         private readonly ScreenManager _screenManager;
         public const int LARGEUR_FENETRE = 704;
         public const int LONGUEUR_FENETRE = 1120;
+        private Perso perso;
+        public Game1 game1;
+
 
         // on définit les différents états possibles du jeu ( à compléter) 
         public enum Etats { Menu, Options, Play, Quit };
@@ -81,11 +84,14 @@ namespace Monogame
         }
 
         protected override void LoadContent()
+
         {
+            
             SpriteBatch = new SpriteBatch(GraphicsDevice);
 
             // on charge l'écran de menu par défaut 
             _screenManager.LoadScreen(_screenMenu, new FadeTransition(GraphicsDevice, Color.Black));
+            
         }
 
         protected override void Update(GameTime gameTime)
@@ -101,10 +107,13 @@ namespace Monogame
                 if (this.Etat == Etats.Quit)
                     Exit();
 
-                else if (this.Etat == Etats.Play)
+                else if (this.Etat == Etats.Play) { 
                     _screenManager.LoadScreen(_screenLobby, new FadeTransition(GraphicsDevice, Color.Black));
-                else if (this.Etat == Etats.Options)
-                    _screenManager.LoadScreen(_screenOption, new FadeTransition(GraphicsDevice, Color.Black));
+                _screenLobby.SpriteBatch = _spriteBatch; }
+
+
+            else if (this.Etat == Etats.Options)
+                _screenManager.LoadScreen(_screenOption, new FadeTransition(GraphicsDevice, Color.Black));
 
             }
 
