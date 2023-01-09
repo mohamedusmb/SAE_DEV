@@ -1,8 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Monogame;
 using MonoGame.Extended.Screens;
 using MonoGame.Extended.Screens.Transitions;
 
@@ -11,14 +9,13 @@ namespace Monogame
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+        public SpriteBatch _spriteBatch;
         private readonly ScreenManager _screenManager;
         public const int LARGEUR_FENETRE = 704;
         public const int LONGUEUR_FENETRE = 1120;
 
-
         // on définit les différents états possibles du jeu ( à compléter) 
-        public enum Etats { Menu, Controls, Play, Quit };
+        public enum Etats { Menu, Options, Play, Quit };
 
         // on définit un champ pour stocker l'état en cours du jeu
         private Etats etat;
@@ -26,9 +23,7 @@ namespace Monogame
         // on définit  2 écrans ( à compléter )
         private ScreenMenu _screenMenu;
         private ScreenLobby _screenLobby;
-        private Perso _perso;
-
-
+        private ScreenOptions _screenOption;
 
         public SpriteBatch SpriteBatch
         {
@@ -59,8 +54,7 @@ namespace Monogame
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
-            _graphics.PreferredBackBufferWidth = LARGEUR_FENETRE;
-            _graphics.PreferredBackBufferHeight = LONGUEUR_FENETRE;
+            
 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -73,14 +67,12 @@ namespace Monogame
             // on charge les 2 écrans 
             _screenMenu = new ScreenMenu(this);
             _screenLobby = new ScreenLobby(this);
-            _perso = new Perso(this);
-
+            _screenOption = new ScreenOptions(this);
 
         }
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             _graphics.PreferredBackBufferWidth = LONGUEUR_FENETRE;
             _graphics.PreferredBackBufferHeight = LARGEUR_FENETRE;
             _graphics.ApplyChanges();
@@ -94,9 +86,6 @@ namespace Monogame
 
             // on charge l'écran de menu par défaut 
             _screenManager.LoadScreen(_screenMenu, new FadeTransition(GraphicsDevice, Color.Black));
-            // TODO: use this.Content to load your game content here
-
-
         }
 
         protected override void Update(GameTime gameTime)
@@ -114,6 +103,8 @@ namespace Monogame
 
                 else if (this.Etat == Etats.Play)
                     _screenManager.LoadScreen(_screenLobby, new FadeTransition(GraphicsDevice, Color.Black));
+                else if (this.Etat == Etats.Options)
+                    _screenManager.LoadScreen(_screenOption, new FadeTransition(GraphicsDevice, Color.Black));
 
             }
 
@@ -124,17 +115,12 @@ namespace Monogame
             }
 
 
-            // TODO: Add your update logic here
-
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
-
             base.Draw(gameTime);
         }
     }
